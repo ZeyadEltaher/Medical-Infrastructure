@@ -1,0 +1,54 @@
+
+name: Build and Push SQL Server HA Image
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'SqlServerBase/**'
+      - 'SqlServerHaCluster/**'
+      - '.github/workflows/docker-image.yml'
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Login to GitHub Container Registry
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 3. Build SQL Server Base Image
+      - name: Build SQL Server Base Image
+        run: |
+          docker build \
+            -f SqlServerBase/Dockerfile \
+            -t sqlserver:2025 \
+            SqlServerBase
+
+      # 4. Build SQL Server HA Image
+      - name: Build SQL Server HA Image
+        run: |
+          docker build \
+            -f SqlServerHaCluster/Dockerfile \
+            -t ghcr.io/zeyadeltaher/sqlserver-ha:2025 \
+            SqlServerHaCluster
+
+      # 5. Push SQL Server HA Image
+      - name: Push SQL Server HA Image
+        run: |
+          docker push ghcr.io/zeyadeltaher/sqlserver-ha:2025
