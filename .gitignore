@@ -16,3 +16,14 @@
 *.tmp
 SqlServerBase/mssql-server.deb
 SqlServerBase/secrets/
+
+# SQL Server HA secrets
+SqlServerHaCluster/secrets/*.env
+SqlServerHaCluster/secrets/*
+!SqlServerHaCluster/secrets/.gitkeep
+
+# SQL Server runtime data
+SqlServerHaCluster/data/*
+!SqlServerHaCluster/data/sqlserver-1/
+!SqlServerHaCluster/data/sqlserver-2/
+!SqlServerHaCluster/data/sqlserver-3/

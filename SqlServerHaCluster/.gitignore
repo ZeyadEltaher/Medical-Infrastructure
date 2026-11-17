@@ -1,0 +1,11 @@
+data/
+secrets/
+.env
+.env.*
+!.env.example
+*.mdf
+*.ldf
+*.ndf
+*.bak
+*.trn
+*.log
