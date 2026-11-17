@@ -11,6 +11,7 @@ RUN apt-get update && \
         systemd \
         systemd-sysv \
         pacemaker \
+        pacemaker-cli-utils \
         corosync \
         pcs \
         mssql-server-ha \
